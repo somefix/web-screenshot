@@ -25,6 +25,20 @@ function takeScreenShot() {
 
 document.addEventListener("DOMContentLoaded", takeScreenShot);
 
-chrome.action.onClicked.addListener(function (tab) {
-  console.log("Hello")
-});
+console.log("Hello")
+// chrome.action.onClicked.addListener(function (tab) {
+//   console.log("Hello")
+// });
+
+const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+const response = await chrome.tabs.sendMessage(tab.id, {action: "screenshot"});
+console.log(response); // the content script responds with the data or a success message
+// return response
+// выполняем скрипт
+// chrome.scripting.executeScript({
+//   // скрипт будет выполняться во вкладке, которую нашли на предыдущем этапе
+//   target: { tabId: tab.id },
+//   // вызываем функцию, в которой лежит запуск снежинок
+//   function: takeScreenShot,
+// });
